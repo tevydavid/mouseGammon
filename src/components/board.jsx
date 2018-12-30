@@ -1,11 +1,5 @@
 import React from 'react';
-
-let rowStyle = {
-    border: 'thin solid black',
-    padding: '2px',
-    display: 'flex',
-    justifyContent: 'space-between'
-};
+import Slot from './slot';
 
 let colStyle = {
     width: '20px',
@@ -19,53 +13,38 @@ let middleDivider = {
     margin: '5px 0'
 };
 
-function pieceStyle({color}) {
-  return {
-      border: 'solid black',
-      borderRadius: '50px',
-      height: '15px',
-      width: '15px',
-      backgroundColor: color === "W" ? "white" : "black",
-      margin: '2px 0'
-  };
-}
-
-function renderPieces(pieces) {
-  return (
-    <div className='column bottom-row' style={colStyle}>
-      {pieces.map(renderPiece)}
-    </div>
-  );
-}
-
-function renderPiece(piece) {
-    return (
-        <div className={`piece ${piece.color}`} style={pieceStyle(piece)} />
-    );
-}
 
 class Board extends React.Component {
   constructor(props){
       super(props);
   }
+    
+  rowStyle({top}){
+    return {
+        border: 'thin solid black',
+        padding: '2px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        flexDirection: top ? 'row-reverse' : 'row'
+    };
+  }
 
   top() {
       const board = this.props.game.board.board;
-      return board.slice(0,12).map(renderPieces).reverse();
+      return board.slice(0,12);
   }
   bottom(){
       const board = this.props.game.board.board;
-      return board.slice(12, board.length)
-          .map(renderPieces);
+      return board.slice(12, board.length);
   }
   render() {
     return <div>
-        <div className="top-row" style={rowStyle}>
-            {this.top()}
+        <div className="top-row" style={this.rowStyle({top: true})}>
+            {this.top().map((pieces) => { return <Slot pieces={pieces} top={true}/>;})}
         </div>
         <div style={middleDivider} />
-        <div className="bottom-row" style={rowStyle}>
-            {this.bottom()}
+        <div className="bottom-row" style={this.rowStyle({})}>
+            {this.bottom().map((pieces) => { return <Slot pieces={pieces} />;})}
         </div>
     
     </div>;
