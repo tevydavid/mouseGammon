@@ -1,14 +1,15 @@
 import React from 'react';
 
 
-function pieceStyle({color}) {
+function pieceStyle({color, selected}) {
+  const border = selected ? "red" : "black" ;
   return {
-      border: 'solid black',
+      border: `solid ${border}`,
       borderRadius: '50px',
       height: '15px',
       width: '15px',
       backgroundColor: color === "W" ? "white" : "black",
-      margin: '2px 0'
+      margin: '2px 0',
   };
 }
 
@@ -22,7 +23,7 @@ function renderPieces(pieces) {
 
 function renderPiece(piece) {
     return (
-        <div className={`piece ${piece.color}`} style={pieceStyle(piece)} />
+        <div className={`piece ${piece.color}`} style={pieceStyle(piece)} onClick={piece.select} />
     );
 }
 

@@ -13,6 +13,11 @@ class Board {
     constructor(){
         this.board = new Array(24);
         this.setUpBoard();
+        this.selectedPiece = null;
+    }
+    
+    selectPiece(index){
+        this.selectedPiece = this.board[index].last();
     }
     setUpBoard(){
         for(let i = 0; i < this.board.length; i++){
@@ -43,10 +48,29 @@ class Board {
     }
 }
 
+class Slot {
+    constructor({top, pieces: []}){
+        this.top = top;
+        this.pieces = pieces;
+        this.selectedPieces = [];
+    }
+    addPieces({pieces = []}){
+        this.pieces.concat(pieces);
+    }
+    selectPieces({numPieces}){
+        this.pieces.slice(this.pieces.length - 1 - numPieces).each((pieces) => {    piece.selected = true;
+        this.selectedPieces.push(pieces);
+        });
+    }
+}
 class Piece {
     constructor({color}){
         this.color = color;
         this.selected = false;
+        this.select = this.select.bind(this);
+    }
+    select(){
+        this.selected = true;
     }
 }
 
